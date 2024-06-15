@@ -12,12 +12,12 @@ interface Step {
 }
 
 const steps: Step[] = [
-  { id: 'targetPremium', label: 'Target Premium', defaultValue: 100000 },
+  { id: 'target', label: 'Target', defaultValue: 100000 },
   { id: 'commissionRate', label: 'Commission Rate (%)', defaultValue: 40 },
-  { id: 'caseSize', label: 'Average Case Size', defaultValue: 5000 },
-  { id: 'closingRatio', label: 'Average Closing Ratio', defaultValue: 3 },
-  { id: 'openingRatio', label: 'Average Opening Ratio', defaultValue: 3 },
-  { id: 'approvalRatio', label: 'Average Approval Ratio', defaultValue: 10 },
+  { id: 'caseSize', label: 'Average Case Size in $', defaultValue: 5000 },
+  { id: 'closingRatio', label: 'Average Closing Ratio N:1', defaultValue: 3 },
+  { id: 'openingRatio', label: 'Average Opening Ratio M:1', defaultValue: 3 },
+  { id: 'approvalRatio', label: 'Average Approval Ratio K:1', defaultValue: 10 },
 ];
 
 interface Inputs {
@@ -93,7 +93,7 @@ export default function Home() {
           </div>
         </>
       ) : (
-        <Typography variant="h2">Average Premium per Initial Contact: ${result}</Typography>
+        <Typography variant="h2">Average Value per Initial Contact: ${result}</Typography>
       )}
     </Container>
   );
