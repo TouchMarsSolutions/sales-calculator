@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Button, Input } from '@nextui-org/react';
 import {Chip} from "@nextui-org/chip";
+import Mermaid from "./mermaid";
 
 interface Step {
   id: string;
@@ -48,6 +49,7 @@ export default function Home() {
     prospectsNeeded: 0,
     initialContactsNeeded: 0,
   });
+  const [mermaidDiagram, setMermaidDiagram] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -88,7 +90,39 @@ export default function Home() {
     });
 
     setResult(parseFloat(averagePremiumPerInitialContact.toFixed(2)));
-    setShowResult(true); // Show the result
+    setShowResult(true);
+
+    const mermaidString = `
+      graph TD
+        A[Target: $${targetCommission.toFixed(2)}]
+        B[Commission Rate: ${commissionRate}%]
+        C[Total Premium Needed: $${totalPremium.toFixed(2)}]
+        D[Average Case Size: $${caseSize.toFixed(2)}]
+        E[Number of Cases Needed: ${casesNeeded.toFixed(2)}]
+        F[Average Closing Ratio: ${closingRatio}:1]
+        G[Appointments Needed: ${appointmentsNeeded.toFixed(2)}]
+        H[Average Opening Ratio: ${openingRatio}:1]
+        I[Prospects to Contact: ${prospectsNeeded.toFixed(2)}]
+        J[Average Approval Ratio: ${approvalRatio}:1]
+        K[Initial Contacts Needed: ${initialContactsNeeded.toFixed(2)}]
+        L[Average Premium per Initial Contact: $${averagePremiumPerInitialContact.toFixed(2)}]
+
+        A --> C
+        B --> C
+        C --> E
+        D --> E
+        E -->|${casesNeeded.toFixed(2)} * ${closingRatio}| G
+        F --> G
+        G -->|${appointmentsNeeded.toFixed(2)} * ${openingRatio}| I
+        H --> I
+        I -->|${prospectsNeeded.toFixed(2)} * ${approvalRatio}| K
+        J --> K
+        A --> L
+        K -->|$${targetCommission.toFixed(2)} / ${initialContactsNeeded.toFixed(2)}| L
+    `;
+
+    setMermaidDiagram(mermaidString);
+
   };
 
   return (
@@ -110,7 +144,8 @@ export default function Home() {
               <Button onClick={handleNext}>{currentStep < steps.length - 1 ? 'Next' : 'Calculate'}</Button>
             </div>
           </div>
-        ) : (                            
+        ) : (    
+          <>
           <div className={`transition-opacity duration-1000 ${showResult ? 'opacity-100' : 'opacity-0'}`}>
             <p>Total Premium Needed: <Chip color="success" variant="bordered">${totals.totalPremium}</Chip></p>
             <p>Closing Cases Needed: <Chip color="success" variant="bordered">{totals.casesNeeded}</Chip></p>
@@ -121,7 +156,13 @@ export default function Home() {
             <h2 className="text-2xl mb-4">
               Average Value per Initial Contact: <Chip color="success" variant="shadow">${result}</Chip>
             </h2>
+            <Mermaid chart={mermaidDiagram} />
           </div>
+          <div>
+
+            
+          </div>
+          </>                        
         )}
       </div>
     </div>
