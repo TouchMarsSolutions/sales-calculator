@@ -12,7 +12,7 @@ interface Step {
 }
 
 const steps: Step[] = [
-  { id: 'targetCommission', label: 'Target', defaultValue: 100000 },
+  { id: 'targetCommission', label: 'Target $', defaultValue: 100000 },
   { id: 'commissionRate', label: 'Commission Rate (%)', defaultValue: 40 },
   { id: 'caseSize', label: 'Average Case Size $', defaultValue: 5000 },
   { id: 'closingRatio', label: 'Average Closing Ratio N:1', defaultValue: 3 },
