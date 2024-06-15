@@ -12,16 +12,16 @@ interface Step {
 }
 
 const steps: Step[] = [
-  { id: 'target', label: 'Target', defaultValue: 100000 },
+  { id: 'targetCommission', label: 'Target', defaultValue: 100000 },
   { id: 'commissionRate', label: 'Commission Rate (%)', defaultValue: 40 },
-  { id: 'caseSize', label: 'Average Case Size in Dollars', defaultValue: 5000 },
-  { id: 'closingRatio', label: 'Average Closing Ratio N to 1', defaultValue: 3 },
-  { id: 'openingRatio', label: 'Average Opening Ratio M to 1', defaultValue: 3 },
-  { id: 'approvalRatio', label: 'Average Approval Ratio K to 1', defaultValue: 10 },
+  { id: 'caseSize', label: 'Average Case Size $', defaultValue: 5000 },
+  { id: 'closingRatio', label: 'Average Closing Ratio N:1', defaultValue: 3 },
+  { id: 'openingRatio', label: 'Average Opening Ratio M:1', defaultValue: 3 },
+  { id: 'approvalRatio', label: 'Average Approval Ratio K:1', defaultValue: 10 },
 ];
 
 interface Inputs {
-  targetPremium: number;
+  targetCommission: number;
   commissionRate: number;
   caseSize: number;
   closingRatio: number;
@@ -32,7 +32,7 @@ interface Inputs {
 export default function Home() {
   const [currentStep, setCurrentStep] = useState(0);
   const [inputs, setInputs] = useState<Inputs>({
-    targetPremium: steps[0].defaultValue,
+    targetCommission: steps[0].defaultValue,
     commissionRate: steps[1].defaultValue,
     caseSize: steps[2].defaultValue,
     closingRatio: steps[3].defaultValue,
@@ -40,7 +40,7 @@ export default function Home() {
     approvalRatio: steps[5].defaultValue,
   });
 
-  const [result, setResult] = useState<number | null>(null); // Update result state
+  const [result, setResult] = useState<number | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -52,26 +52,26 @@ export default function Home() {
       setCurrentStep(currentStep + 1);
     } else {
       calculateResult();
-      setCurrentStep(currentStep + 1); // Move to the result display step
+      setCurrentStep(currentStep + 1);
     }
   };
 
   const handlePrev = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
-      setResult(null); // Reset result if going back
+      setResult(null);
     }
   };
 
   const calculateResult = () => {
-    const { targetPremium, commissionRate, caseSize, closingRatio, openingRatio, approvalRatio } = inputs;
-    const totalPremium = targetPremium / (commissionRate / 100);
+    const { targetCommission, commissionRate, caseSize, closingRatio, openingRatio, approvalRatio } = inputs;
+    const totalPremium = targetCommission / (commissionRate / 100);
     const casesNeeded = totalPremium / caseSize;
     const appointmentsNeeded = casesNeeded * closingRatio;
     const prospectsNeeded = appointmentsNeeded * openingRatio;
     const initialContactsNeeded = prospectsNeeded * approvalRatio;
-    const averagePremiumPerInitialContact = targetPremium / initialContactsNeeded;
-    setResult(parseFloat(averagePremiumPerInitialContact.toFixed(2))); // Set the result
+    const averagePremiumPerInitialContact = targetCommission / initialContactsNeeded;
+    setResult(parseFloat(averagePremiumPerInitialContact.toFixed(2)));
   };
 
   return (
@@ -93,7 +93,7 @@ export default function Home() {
           </div>
         </>
       ) : (
-        <Typography variant="h2">Average Value per Initial Contact: ${result}</Typography>
+        <Typography variant="h2">Average Premium per Initial Contact: ${result}</Typography>
       )}
     </Container>
   );
