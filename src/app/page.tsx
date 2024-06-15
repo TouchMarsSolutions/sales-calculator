@@ -1,10 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import { Button, Input } from '@nextui-org/react';
-import Fade from '@mui/material/Fade';
+import {Chip} from "@nextui-org/chip";
 
 interface Step {
   id: string;
@@ -78,28 +76,33 @@ export default function Home() {
   };
 
   return (
-    <Container>
-      <Typography variant="h1">Sales Calculator</Typography>
-      {currentStep < steps.length ? (
-        <>
-          <Typography variant="h3">{steps[currentStep].label}</Typography>
-          <Input
-            id={steps[currentStep].id}
-            type="number"
-            value={inputs[steps[currentStep].id as keyof Inputs].toString()}
-            onChange={handleChange}
-            fullWidth
-          />
-          <div>
-            {currentStep > 0 && <Button onClick={handlePrev}>Previous</Button>}
-            <Button onClick={handleNext}>{currentStep < steps.length - 1 ? 'Next' : 'Calculate'}</Button>
+    <div className="flex flex-col justify-between px-4 py-8">
+      <h1 className="text-4xl font-bold mb-8 text-center">Sales Calculator</h1>
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        {currentStep < steps.length ? (
+          <div className="space-y-4">
+            <h3 className="text-2xl">{steps[currentStep].label}</h3>
+            <Input
+              id={steps[currentStep].id}
+              type="number"
+              value={inputs[steps[currentStep].id as keyof Inputs].toString()}
+              onChange={handleChange}
+              fullWidth
+            />
+            <div className="flex justify-center space-x-4">
+              {currentStep > 0 && <Button onClick={handlePrev}>Previous</Button>}
+              <Button onClick={handleNext}>{currentStep < steps.length - 1 ? 'Next' : 'Calculate'}</Button>
+            </div>
           </div>
-        </>
-      ) : (
-        <Fade in={showResult} timeout={1500}>
-          <Typography variant="h2">Average Premium per Initial Contact: ${result}</Typography>          
-        </Fade>
-      )}
-    </Container>
+        ) : (                            
+          <div className={`transition-opacity duration-1000 ${showResult ? 'opacity-100' : 'opacity-0'}`}>
+            <h2 className="text-2xl">
+              Average Value per Initial Contact: <Chip color="success" variant="shadow">${result}</Chip>
+            </h2>
+          </div>
+        )}
+      </div>
+    </div>
   );
+
 }
