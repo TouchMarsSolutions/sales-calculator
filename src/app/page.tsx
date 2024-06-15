@@ -11,7 +11,7 @@ interface Step {
 }
 
 const steps: Step[] = [
-  { id: 'targetCommission', label: 'Target $', defaultValue: 100000 },
+  { id: 'targetCommission', label: 'Target $', defaultValue: 1000000 },
   { id: 'commissionRate', label: 'Commission Rate (%)', defaultValue: 40 },
   { id: 'caseSize', label: 'Average Case Size $', defaultValue: 5000 },
   { id: 'closingRatio', label: 'Average Closing Ratio N:1', defaultValue: 3 },
@@ -41,6 +41,13 @@ export default function Home() {
 
   const [result, setResult] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
+  const [totals, setTotals] = useState({
+    totalPremium: 0,
+    casesNeeded: 0,
+    appointmentsNeeded: 0,
+    prospectsNeeded: 0,
+    initialContactsNeeded: 0,
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -71,6 +78,15 @@ export default function Home() {
     const prospectsNeeded = appointmentsNeeded * openingRatio;
     const initialContactsNeeded = prospectsNeeded * approvalRatio;
     const averagePremiumPerInitialContact = targetCommission / initialContactsNeeded;
+
+    setTotals({
+      totalPremium: parseFloat(totalPremium.toFixed(2)),
+      casesNeeded: parseFloat(casesNeeded.toFixed(2)),
+      appointmentsNeeded: parseFloat(appointmentsNeeded.toFixed(2)),
+      prospectsNeeded: parseFloat(prospectsNeeded.toFixed(2)),
+      initialContactsNeeded: parseFloat(initialContactsNeeded.toFixed(2)),
+    });
+
     setResult(parseFloat(averagePremiumPerInitialContact.toFixed(2)));
     setShowResult(true); // Show the result
   };
@@ -96,7 +112,13 @@ export default function Home() {
           </div>
         ) : (                            
           <div className={`transition-opacity duration-1000 ${showResult ? 'opacity-100' : 'opacity-0'}`}>
-            <h2 className="text-2xl">
+            <p>Total Premium Needed: <Chip color="success" variant="bordered">${totals.totalPremium}</Chip></p>
+            <p>Closing Cases Needed: <Chip color="success" variant="bordered">{totals.casesNeeded}</Chip></p>
+            <p>Opening Appointments Needed: <Chip color="success" variant="bordered">{totals.appointmentsNeeded}</Chip></p>
+            <p>Prospects to Contact: <Chip color="success" variant="bordered">{totals.prospectsNeeded}</Chip></p>
+            <p>Initial Contacts Needed: <Chip color="success" variant="bordered">{totals.initialContactsNeeded}</Chip></p>
+            
+            <h2 className="text-2xl mb-4">
               Average Value per Initial Contact: <Chip color="success" variant="shadow">${result}</Chip>
             </h2>
           </div>
