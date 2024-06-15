@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { Button, Input } from '@nextui-org/react';
+import Fade from '@mui/material/Fade';
 
 interface Step {
   id: string;
@@ -41,6 +42,7 @@ export default function Home() {
   });
 
   const [result, setResult] = useState<number | null>(null);
+  const [showResult, setShowResult] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -72,6 +74,7 @@ export default function Home() {
     const initialContactsNeeded = prospectsNeeded * approvalRatio;
     const averagePremiumPerInitialContact = targetCommission / initialContactsNeeded;
     setResult(parseFloat(averagePremiumPerInitialContact.toFixed(2)));
+    setShowResult(true); // Show the result
   };
 
   return (
@@ -93,7 +96,9 @@ export default function Home() {
           </div>
         </>
       ) : (
-        <Typography variant="h2">Average Premium per Initial Contact: ${result}</Typography>
+        <Fade in={showResult} timeout={1500}>
+          <Typography variant="h2">Average Premium per Initial Contact: ${result}</Typography>          
+        </Fade>
       )}
     </Container>
   );
