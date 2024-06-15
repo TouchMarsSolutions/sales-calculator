@@ -15,9 +15,9 @@ const steps: Step[] = [
   { id: 'target', label: 'Target', defaultValue: 100000 },
   { id: 'commissionRate', label: 'Commission Rate (%)', defaultValue: 40 },
   { id: 'caseSize', label: 'Average Case Size in Dollars', defaultValue: 5000 },
-  { id: 'closingRatio', label: 'Average Closing Ratio N:1', defaultValue: 3 },
-  { id: 'openingRatio', label: 'Average Opening Ratio M:1', defaultValue: 3 },
-  { id: 'approvalRatio', label: 'Average Approval Ratio K:1', defaultValue: 10 },
+  { id: 'closingRatio', label: 'Average Closing Ratio N to 1', defaultValue: 3 },
+  { id: 'openingRatio', label: 'Average Opening Ratio M to 1', defaultValue: 3 },
+  { id: 'approvalRatio', label: 'Average Approval Ratio K to 1', defaultValue: 10 },
 ];
 
 interface Inputs {
