@@ -13,11 +13,11 @@ interface Step {
 
 const steps: Step[] = [
   { id: 'targetCommission', label: 'Target $', defaultValue: 1000000 },
-  { id: 'commissionRate', label: 'Commission Rate (%)', defaultValue: 40 },
+  { id: 'commissionRate', label: 'Your Commission Rate (%)', defaultValue: 40 },
   { id: 'caseSize', label: 'Average Case Size $', defaultValue: 5000 },
-  { id: 'closingRatio', label: 'Average Closing Ratio N:1', defaultValue: 3 },
-  { id: 'openingRatio', label: 'Average Opening Ratio M:1', defaultValue: 3 },
-  { id: 'approvalRatio', label: 'Average Approval Ratio K:1', defaultValue: 10 },
+  { id: 'closingRatio', label: 'Deal-Closing Ratio N:1 (1 Successful Deal per N Appointments)', defaultValue: 3 },
+  { id: 'openingRatio', label: 'Appointment-Opening Ratio M:1 (1 Appointment per M Interested Prospects)', defaultValue: 3 },
+  { id: 'approachRatio', label: 'Approach Ratio K:1 (1 Interested Prospect per K Initial Contacts)', defaultValue: 10 },
 ];
 
 interface Inputs {
@@ -26,7 +26,7 @@ interface Inputs {
   caseSize: number;
   closingRatio: number;
   openingRatio: number;
-  approvalRatio: number;
+  approachRatio: number;
 }
 
 export default function Home() {
@@ -37,7 +37,7 @@ export default function Home() {
     caseSize: steps[2].defaultValue,
     closingRatio: steps[3].defaultValue,
     openingRatio: steps[4].defaultValue,
-    approvalRatio: steps[5].defaultValue,
+    approachRatio: steps[5].defaultValue,
   });
 
   const [result, setResult] = useState<number | null>(null);
@@ -73,12 +73,12 @@ export default function Home() {
   };
 
   const calculateResult = () => {
-    const { targetCommission, commissionRate, caseSize, closingRatio, openingRatio, approvalRatio } = inputs;
+    const { targetCommission, commissionRate, caseSize, closingRatio, openingRatio, approachRatio } = inputs;
     const totalPremium = targetCommission / (commissionRate / 100);
     const casesNeeded = totalPremium / caseSize;
     const appointmentsNeeded = casesNeeded * closingRatio;
     const prospectsNeeded = appointmentsNeeded * openingRatio;
-    const initialContactsNeeded = prospectsNeeded * approvalRatio;
+    const initialContactsNeeded = prospectsNeeded * approachRatio;
     const averagePremiumPerInitialContact = targetCommission / initialContactsNeeded;
 
     setTotals({
@@ -97,15 +97,15 @@ export default function Home() {
         A[Target: $${targetCommission.toFixed(2)}]
         B[Commission Rate: ${commissionRate}%]
         C[Total Premium Needed: $${totalPremium.toFixed(2)}]
-        D[Average Case Size: $${caseSize.toFixed(2)}]
-        E[Number of Cases Needed: ${casesNeeded.toFixed(2)}]
-        F[Average Closing Ratio: ${closingRatio}:1]
+        D[Average Deal Size: $${caseSize.toFixed(2)}]
+        E[Number of Deals Needed: ${casesNeeded.toFixed(2)}]
+        F[Deal Closing Ratio: ${closingRatio}:1]
         G[Appointments Needed: ${appointmentsNeeded.toFixed(2)}]
-        H[Average Opening Ratio: ${openingRatio}:1]
-        I[Prospects to Contact: ${prospectsNeeded.toFixed(2)}]
-        J[Average Approval Ratio: ${approvalRatio}:1]
+        H[Appt Opening Ratio: ${openingRatio}:1]
+        I[Interested Prospects: ${prospectsNeeded.toFixed(2)}]
+        J[Approach to Prospect Ratio: ${approachRatio}:1]
         K[Initial Contacts Needed: ${initialContactsNeeded.toFixed(2)}]
-        L[Average Premium per Initial Contact: $${averagePremiumPerInitialContact.toFixed(2)}]
+        L[Avg Premium per Initial Contact: $${averagePremiumPerInitialContact.toFixed(2)}]
 
         A --> C
         B --> C
@@ -115,7 +115,7 @@ export default function Home() {
         F --> G
         G -->|${appointmentsNeeded.toFixed(2)} * ${openingRatio}| I
         H --> I
-        I -->|${prospectsNeeded.toFixed(2)} * ${approvalRatio}| K
+        I -->|${prospectsNeeded.toFixed(2)} * ${approachRatio}| K
         J --> K
         A --> L
         K -->|$${targetCommission.toFixed(2)} / ${initialContactsNeeded.toFixed(2)}| L
@@ -144,7 +144,7 @@ export default function Home() {
               <Button onClick={handleNext}>{currentStep < steps.length - 1 ? 'Next' : 'Calculate'}</Button>
             </div>
           </div>
-        ) : (    
+        ) : (
           <>
           <div className={`transition-opacity duration-1000 w-2/3 ${showResult ? 'opacity-100' : 'opacity-0'}`}>
             <p>Total Premium Needed: <Chip color="success" variant="bordered">${totals.totalPremium}</Chip></p>
@@ -152,14 +152,14 @@ export default function Home() {
             <p>Opening Appointments Needed: <Chip color="success" variant="bordered">{totals.appointmentsNeeded}</Chip></p>
             <p>Prospects to Contact: <Chip color="success" variant="bordered">{totals.prospectsNeeded}</Chip></p>
             <p>Initial Contacts Needed: <Chip color="success" variant="bordered">{totals.initialContactsNeeded}</Chip></p>
-            
+
             <h2 className="text-2xl mb-4">
               Average Value per Initial Contact: <Chip color="success" variant="shadow">${result}</Chip>
             </h2>
             <Mermaid chart={mermaidDiagram} />
           </div>
-          
-          </>                        
+
+          </>
         )}
       </div>
     </div>
