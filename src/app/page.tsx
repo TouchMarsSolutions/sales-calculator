@@ -145,21 +145,21 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <>
-          <div className={`transition-opacity duration-1000 w-2/3 ${showResult ? 'opacity-100' : 'opacity-0'}`}>
-            <p>Total Revenue or Premium Needed: <Chip color="success" variant="bordered">${totals.totalPremium}</Chip></p>
-            <p>Closing Cases Needed: <Chip color="success" variant="bordered">{totals.casesNeeded}</Chip></p>
-            <p>Opening Appointments Needed: <Chip color="success" variant="bordered">{totals.appointmentsNeeded}</Chip></p>
-            <p>Prospects to Contact: <Chip color="success" variant="bordered">{totals.prospectsNeeded}</Chip></p>
-            <p>Initial Contacts Needed: <Chip color="success" variant="bordered">{totals.initialContactsNeeded}</Chip></p>
+            <div className={`transition-opacity duration-1000 w-2/3 ${showResult ? 'opacity-100' : 'opacity-0'}`}>
+              <p>Total Revenue or Premium Needed: <Chip color="success" variant="bordered">${totals.totalPremium}</Chip>
+              </p>
+              <p>Closing Cases Needed: <Chip color="success" variant="bordered">{totals.casesNeeded}</Chip></p>
+              <p>Opening Appointments Needed: <Chip color="success"
+                                                    variant="bordered">{totals.appointmentsNeeded}</Chip></p>
+              <p>Prospects to Contact: <Chip color="success" variant="bordered">{totals.prospectsNeeded}</Chip></p>
+              <p>Initial Contacts Needed: <Chip color="success" variant="bordered">{totals.initialContactsNeeded}</Chip>
+              </p>
 
-            <h2 className="text-2xl mb-4">
-              Average Value per Initial Contact: <Chip color="success" variant="shadow">${result}</Chip>
-            </h2>
-            <Mermaid chart={mermaidDiagram} />
-          </div>
-
-          </>
+              <h2 className="text-2xl mb-4">
+                Average Value per Initial Contact: <Chip color="success" variant="shadow">${result}</Chip>
+              </h2>
+              <Mermaid chart={mermaidDiagram}/>
+            </div>
         )}
       </div>
     </div>
