@@ -153,7 +153,10 @@ export default function Home() {
           </div>
         ) : (
             <div className={`transition-opacity duration-1000 w-2/3 ${showResult ? 'opacity-100' : 'opacity-0'}`}>
-              <p>Total Revenue or Premium Needed: <Chip color="success" variant="bordered">${totals.totalPremium}</Chip></p>
+              <h2 className="text-4xl mb-4">
+                Target: <Chip color="success" variant="bordered" size={"lg"}>I WANT TO EARN ${inputs.targetCommission.toLocaleString()}</Chip>
+              </h2>
+              <p>Total Revenue or Premium Needed: <Chip color="success" variant="bordered">${totals.totalPremium.toLocaleString()}</Chip></p>
               <p>Average Deal Size: <Chip color="success" variant="bordered">${inputs.caseSize}</Chip></p>
               <p>Closing Cases Needed: <Chip color="success" variant="bordered">{totals.casesNeeded}</Chip></p>
               <p>Opening Appointments Needed: <Chip color="success" variant="bordered">{totals.appointmentsNeeded}</Chip></p>
