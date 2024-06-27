@@ -1,6 +1,8 @@
 import { NextUIProvider } from '@nextui-org/react';
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next'
+import { Analytics } from '@vercel/analytics/react';
+
 import './globals.css'; // Path to your global CSS file
 
 export const metadata: Metadata = {
@@ -15,6 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <NextUIProvider>
           {children}
         </NextUIProvider>
+        <Analytics />
       </body>
     </html>
   );
