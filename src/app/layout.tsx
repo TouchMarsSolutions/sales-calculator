@@ -2,6 +2,7 @@ import { NextUIProvider } from '@nextui-org/react';
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import './globals.css'; // Path to your global CSS file
 
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {children}
         </NextUIProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
