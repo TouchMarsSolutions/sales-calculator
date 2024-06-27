@@ -112,7 +112,7 @@ export default function Home() {
         I[Interested Prospects: ${prospectsNeeded.toFixed(2)}]
         J[Approach to Prospect Ratio: ${approachRatio}:1]
         K[Initial Contacts Needed: ${initialContactsNeeded.toFixed(2)}]
-        L[Avg Premium per Initial Contact: $${averagePremiumPerInitialContact.toFixed(2)}]
+        L[Avg Value per Initial Contact: $${averagePremiumPerInitialContact.toFixed(2)}]
 
         A --> C
         B --> C
@@ -162,7 +162,7 @@ export default function Home() {
               </p>
 
               <h2 className="text-2xl mb-4">
-                Average Value per Initial Contact: <Chip color="success" variant="shadow">${result}</Chip>
+                Avg Value per Initial Contact: <Chip color="success" variant="shadow">${result}</Chip>
               </h2>
               <Mermaid chart={mermaidDiagram}/>
             </div>
